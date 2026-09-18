@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contador — план гонки</title>
+<style>
+  :root {
+    --bg: #0f172a; --card: #1e293b; --line: #334155; --text: #e2e8f0; --muted: #94a3b8;
+    --accent: #60a5fa; --warn: #fbbf24; --bad: #f87171; --good: #4ade80; --chip: #0f172a;
+  }
+  @media (prefers-color-scheme: light) {
+    :root { --bg: #f8fafc; --card: #ffffff; --line: #cbd5e1; --text: #0f172a; --muted: #475569;
+      --accent: #1d4ed8; --warn: #b45309; --bad: #b91c1c; --good: #15803d; --chip: #f1f5f9; }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg);
+    color: var(--text); line-height: 1.45; font-size: 16px; }
+  main { max-width: 720px; margin: 0 auto; padding: 16px; }
+  h1 { font-size: 24px; line-height: 1.2; }
+  .sub { color: var(--muted); font-size: 14px; margin-top: 4px; }
+  .facts { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 4px; }
+  .fact { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 6px 10px; font-size: 14px; }
+  .fact b { font-variant-numeric: tabular-nums; }
+  section { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 14px; margin-top: 14px; }
+  section.key { border-color: var(--bad); }
+  h2 { font-size: 17px; margin-bottom: 8px; }
+  p + p, p + ul, ul + p { margin-top: 8px; }
+  ul { padding-left: 18px; }
+  li + li { margin-top: 4px; }
+  .muted { color: var(--muted); font-size: 14px; }
+  .warn { color: var(--warn); } .bad { color: var(--bad); } .good { color: var(--good); }
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th { text-align: left; color: var(--muted); font-weight: 600; font-size: 12px; padding: 4px 6px; border-bottom: 1px solid var(--line); }
+  td { padding: 6px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .km { color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+  td.t { white-space: nowrap; font-weight: 600; }
+  tr.climb .seg { font-weight: 600; }
+  tr.feed .seg::after { content: " · питание"; color: var(--good); font-weight: 400; }
+  .scroll { overflow-x: auto; }
+  .rule { background: var(--chip); border-left: 3px solid var(--accent); border-radius: 6px; padding: 8px 10px; margin-top: 10px; }
+  .timeline td:first-child { width: 64px; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .sticker { border: 2px dashed var(--line); border-radius: 10px; padding: 8px; font-size: 13px; }
+  .sticker td { padding: 2px 4px; }
+  footer { color: var(--muted); font-size: 12px; margin: 18px 0 8px; }
+  @media print {
+    body { background: #fff; color: #000; }
+    section, .fact { border-color: #999; }
+    section:not(.print) { display: none; }
+    .facts, h1, .sub { display: none; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <h1>🚴 Gran Fondo Alberto Contador</h1>
+  <div class="sub">Суббота 19.09.2026 · Oliva Nova · план собран 16.09</div>
+  <div class="facts">
+    <div class="fact">Старт <b>8:00</b></div>
+    <div class="fact"><b>139.5</b> км · <b>2 510</b> м</div>
+    <div class="fact">Закрытие финиша <b class="bad">13:48</b></div>
+    <div class="fact">FTP <b>240</b> Вт</div>
+  </div>
+
+  <section class="key">
+    <h2>⚠️ Главное — часы, а не пульс</h2>
+    <p>За гонкой едет машина закрытия. Кого она обогнала — тот вне гонки: дальше автобус-метла или открытая дорога без поддержки.</p>
+    <p>Её график жёсткий: Coll de Rates за 25 минут. Тебе для этого нужно ~270 Вт, а это выше твоего FTP.</p>
+    <ul>
+      <li>Z2 всю дорогу — машина догонит к Parcent (км 30).</li>
+      <li>Сильная ровная гонка по плану ниже — финиш <b>13:38–14:07</b>. В лучшем случае идёшь вровень с машиной весь день.</li>
+      <li>Пройти все отсечки можно только на NP ~200 Вт в течение 5.5 ч. Это за пределами твоих возможностей.</li>
+    </ul>
+    <p><b>Не гонись за машиной ценой взрыва.</b> Едь свою сильную гонку и забирай бесплатные минуты.</p>
+  </section>
+
+  <section>
+    <h2>⏱ Бесплатные минуты — не стоят ни ватта</h2>
+    <ul>
+      <li>В стартовый коридор к <b>7:30</b>, встать в его голову. Минута на старте — минута запаса.</li>
+      <li>Первые 30 км — только в группе, не на ветру. Держись за колесом, вперёд не выходи.</li>
+      <li>Одна остановка до 2 минут — <b>Tàrbena</b> (км 46.6, пункт прямо на подъёме): долить обе фляги. Если там ты ещё впереди машины — не стой: третья мягкая фляга в кармане, заправка в Gorga (км 76.4).</li>
+      <li>Спуски уверенно, дороги закрыты. Исключение — спуск с Port d'Ebo в Pego: серпантин, тормози до поворота.</li>
+    </ul>
+  </section>
+
+  <section class="print">
+    <h2>🗺 Участки, мощность, лимиты</h2>
+    <div class="scroll">
+    <table>
+      <thead><tr><th>Участок</th><th class="num">Вт</th><th class="num">Лимит</th></tr></thead>
+      <tbody>
+        <tr><td><span class="km">0–14 км</span><br><span class="seg">Oliva Nova → Oliva → равнина</span></td><td class="num">140–170 в группе</td><td class="num t">8:20</td></tr>
+        <tr class="climb"><td><span class="km">14–17 км</span><br><span class="seg">Port del Sorell · 3 км · 5%, местами до 10%</span></td><td class="num">190–205, на крутом до 230</td><td class="num t">8:49</td></tr>
+        <tr><td><span class="km">17–26 км</span><br><span class="seg">Ràfol → Sagra → Tormos → Orba</span></td><td class="num">150–170 в группе</td><td class="num t">9:08</td></tr>
+        <tr><td><span class="km">26–30.5 км</span><br><span class="seg">Подводка к Parcent · 2–3%</span></td><td class="num">170–190</td><td class="num t">9:20</td></tr>
+        <tr class="climb"><td><span class="km">30.5–37.6 км</span><br><span class="seg">Coll de Rates · 7 км · 4.7%</span></td><td class="num">200–215</td><td class="num t">9:45</td></tr>
+        <tr><td><span class="km">37.6–43 км</span><br><span class="seg">Спуск с Rates и волны</span></td><td class="num">накат, 150–180</td><td class="num t"></td></tr>
+        <tr class="climb feed"><td><span class="km">43–46.6 км</span><br><span class="seg">Подъём через Tàrbena к пункту · 3,9 км · ~5%</span></td><td class="num">195–210</td><td class="num t">10:08</td></tr>
+        <tr class="climb"><td><span class="km">46.6–50.5 км</span><br><span class="seg">Sa Creueta после пункта · 3,9 км · ~2%, в конце рампа до 8%</span></td><td class="num">180–200, на рампе до 230</td><td class="num t">10:23</td></tr>
+        <tr><td><span class="km">50.5–56.6 км</span><br><span class="seg">Спуск → Castell de Castells</span></td><td class="num">накат</td><td class="num t">10:33</td></tr>
+        <tr class="climb"><td><span class="km">56.6–65.8 км</span><br><span class="seg">Два подъёма к Famorca и Facheca · по 3–4 км · ~4%</span></td><td class="num">190–205</td><td class="num t">11:03</td></tr>
+        <tr class="feed"><td><span class="km">65.8–76.4 км</span><br><span class="seg">Спуск → Quatretondeta → Gorga</span></td><td class="num">накат, потом 140–160</td><td class="num t">11:25</td></tr>
+        <tr><td><span class="km">76.4–89.7 км</span><br><span class="seg">Benillup → Almudaina → Planes</span></td><td class="num">150–180</td><td class="num t">11:54</td></tr>
+        <tr class="climb feed"><td><span class="km">89.7–100.5 км</span><br><span class="seg">Подъём к Margalida (~3 км, 4%), перед Alcalà рампа до 10%</span></td><td class="num">190–205</td><td class="num t">12:27</td></tr>
+        <tr><td><span class="km">100.5–110.5 км</span><br><span class="seg">Спуск → Vall d'Ebo</span></td><td class="num">накат</td><td class="num t">12:49</td></tr>
+        <tr class="climb"><td><span class="km">110.5–114.2 км</span><br><span class="seg">Coll Port d'Ebo · 3.7 км · 4%</span></td><td class="num">190–210</td><td class="num t">13:03</td></tr>
+        <tr><td><span class="km">114.2–123 км</span><br><span class="seg">Техничный спуск → Pego</span></td><td class="num">осторожно</td><td class="num t">13:16</td></tr>
+        <tr><td><span class="km">123–139.5 км</span><br><span class="seg">Равнина → финиш (к обеду встречный ветер)</span></td><td class="num">140–170 в группе</td><td class="num t">13:48 🏁</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <div class="rule"><b>Правило на Parcent (км 30.5).</b> В 9:12 или раньше — есть шанс пройти Rates до машины: едь 215–225 Вт. Позже 9:15 — машину на Rates не опередить: едь 200–210 Вт и не сжигайся. Между 9:12 и 9:15 — по ощущениям.</div>
+    <p class="muted" style="margin-top:10px">На подъёмах: крутые места до 230 Вт, выше 250 — не дольше 30 секунд. На Rates зачётный сегмент (приз Coca-Cola) — вокруг будут гнать, не ведись. Итог дня: NP 175–185, TSS ~330.</p>
+  </section>
+
+  <section>
+    <h2>❤️ План Б — если датчик сбоит</h2>
+    <p>Поле «Баланс» показывает «--» или 100/0 → пишется одна педаль, ватты врут вдвое. Переходи на пульс. В прохладу он ниже летнего на 5–8 ударов.</p>
+    <table>
+      <tbody>
+        <tr><td>Подъёмы, первые 3 часа</td><td class="num"><b>140–152</b></td></tr>
+        <tr><td>Подъёмы, дальше (пульс дрейфует вверх)</td><td class="num"><b>до 155</b></td></tr>
+        <tr><td>Равнина</td><td class="num"><b>125–140</b></td></tr>
+        <tr><td>Выше 160</td><td class="num bad">только всплесками</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>🍌 Питание</h2>
+    <table class="timeline">
+      <tbody>
+        <tr><td>5:15</td><td>Завтрак: 150–190 г углеводов — белый хлеб или тосты с джемом и мёдом, банан, сок, рис. Мало клетчатки и жира. Кофе.</td></tr>
+        <tr><td>7:40</td><td>Гель и пара глотков.</td></tr>
+        <tr><td>с 8:20</td><td>Каждые 20 минут что-то съесть: гель (~25 г), батончик (~40 г) или изотоник. Итого <b>70–80 г углеводов в час</b>. Голода не ждать.</td></tr>
+        <tr><td>9:05</td><td>Гель с кофеином — перед Coll de Rates.</td></tr>
+        <tr><td>~10:10</td><td>Tàrbena: долить обе фляги, не дольше 2 минут. Если впереди машины — не стоять, заправка в Gorga около 11:30.</td></tr>
+        <tr><td>12:15</td><td>Гель с кофеином — перед Port d'Ebo.</td></tr>
+      </tbody>
+    </table>
+    <p>Пить <b>500–700 мл в час</b> с электролитами — влажность выше 80%. Фляга 1 — изотоник (~60 г углеводов), фляга 2 — вода с электролитом.</p>
+    <p class="muted">С собой: 6 гелей (2 с кофеином), 2–3 батончика, 2 таблетки электролита, мягкая фляга 500 мл, карта и €20, телефон, документ.</p>
+  </section>
+
+  <section>
+    <h2>🚐 Если машина обогнала</h2>
+    <p>Это не провал — ты проезжаешь большую тренировку. <b>Решение: еду дальше по маршруту</b>, в метлу не сажусь.</p>
+    <ul>
+      <li>Дорога уже открыта: правила движения, машины, правый край, спуски медленнее, круговые и светофоры по правилам.</li>
+      <li>Мощность не поднимать, чтобы «догнать», — та же раскладка.</li>
+      <li>Метла — только при поломке или если совсем пусто в ногах.</li>
+    </ul>
+    <p>Пункты питания после машины могут закрыться. Вода — фонтаны в деревнях (Castell de Castells, Gorga, Planes, Vall d'Ebo). Кафе — по карте или за наличные.</p>
+    <p class="muted">Телефон организаторов (метла, техпомощь): <b>+34 644 614 859</b></p>
+  </section>
+
+  <section>
+    <h2>🌅 Утро гонки</h2>
+    <table class="timeline">
+      <tbody>
+        <tr><td>5:00</td><td>Подъём. В 5:15 завтрак.</td></tr>
+        <tr><td>7:00</td><td>Быть на месте: номер с чипом на руле, фляги, туалет.</td></tr>
+        <tr><td>7:15</td><td>Педали: обе видны → калибровка (велосипед уже 10 минут на улице) → поле «Баланс» на экране.</td></tr>
+        <tr><td>7:30</td><td>В стартовый коридор, в его голову.</td></tr>
+        <tr><td>7:40</td><td>Гель.</td></tr>
+        <tr><td>8:00</td><td>Старт.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>🧰 Чек-лист</h2>
+    <ul>
+      <li>Обе педали заряжены на 100%. Часы и телефон тоже.</li>
+      <li>Часы: запись «Каждую секунду», спутники GPS+GALILEO.</li>
+      <li>Курс на часах — официальный GPX (старт изменён в сентябре). ClimbPro покажет, сколько осталось до вершины.</li>
+      <li>Цепь смазана, тормоза проверены, давление в шинах, запасная камера, насос или баллон.</li>
+      <li>Шлем (обязателен), жилет в карман на спуски, номер на руль.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>🌤 Погода</h2>
+    <p>Прогноз от 18.09: <b>прохладно и влажно, дождя почти нет</b> (вероятность 0–25%, ~0 мм). Старт в Oliva 20°C при влажности 90%. В горах утром <b>15–17°C</b> при влажности 95–98%: возможен туман и мокрый асфальт на утренних спусках. К полудню 19–21°C, на финише 23–24°C.</p>
+    <p>Ветер утром слабый. С 11:00 северо-восточный 10–18 км/ч, на гребнях порывы до 35–39. <b>Последние 16 км (Pego → Oliva) — встречный и боковой ветер</b>, держись в группе.</p>
+    <p>Жилет обязательно — на спусках при 15°C мокрым холодно. Жары нет: пить 500–600 мл в час, пульс будет на 5–8 уд ниже летнего.</p>
+  </section>
+
+  <section class="print">
+    <h2>🏷 Стикер на раму</h2>
+    <p class="muted" style="margin-bottom:6px">Распечатать (печатаются только таблица участков и стикер) или переписать на изоленту.</p>
+    <div class="sticker">
+      <table>
+        <tbody>
+          <tr><td class="num">17</td><td>Sorell</td><td class="num">8:49</td><td class="num">≤205</td></tr>
+          <tr><td class="num">30.5</td><td>Parcent</td><td class="num">9:20</td><td class="num">≤9:12?</td></tr>
+          <tr><td class="num">37.6</td><td>Rates</td><td class="num">9:45</td><td class="num">200–215</td></tr>
+          <tr><td class="num">46.6</td><td>Tàrbena 🍌</td><td class="num">10:08</td><td class="num">≤2 мин</td></tr>
+          <tr><td class="num">50.5</td><td>Creueta</td><td class="num">10:23</td><td class="num">180–200</td></tr>
+          <tr><td class="num">76.4</td><td>Gorga 🍌</td><td class="num">11:25</td><td class="num"></td></tr>
+          <tr><td class="num">100.5</td><td>Alcalà 🍌</td><td class="num">12:27</td><td class="num"></td></tr>
+          <tr><td class="num">114.2</td><td>Port d'Ebo</td><td class="num">13:03</td><td class="num">190–210</td></tr>
+          <tr><td class="num">139.5</td><td>Финиш</td><td class="num">13:48</td><td class="num"></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer>
+    Откуда цифры: лимиты — официальный рутометр организаторов (обновлён в сентябре 2026). Время — физическая модель по профилю трассы, проверенная на твоих заездах 02.08 и 08.08 (ошибка 1–5%): масса системы ~100 кг по твоему датчику, аэросопротивление в одиночку 0.37 м² и 0.26 м² в группе, скорость спусков — как на твоих тренировках. Профиль — по треку, сверенному 16.09 с маршрутом организатора в Strava.
+  </footer>
+</main>
+</body>
+</html>
